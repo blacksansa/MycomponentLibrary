@@ -18,7 +18,7 @@ export default function AuthToggle() {
 
   useEffect(() => {
     if (current === "Login") {
-      setLoginStyle("bg-gray-500");
+      setLoginStyle("bg-gray-500 animate-jump");
       setRegisterStyle("");
     } else {
       setLoginStyle("");
