@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import isInputValid from "../lib/inputValidations";
+import isInputIsValid from "../lib/inputValidations";
 
-function setInputColor(parameter,setParameter) {
+function setInputColor(parameter, setParameter) {
   switch (parameter) {
     case "":
       setParameter("border-gray-400")
@@ -21,28 +22,28 @@ export default function MobileRegistercard() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [secondPassword, setSecondPassword] = useState("");
-  const [confirmationStyle, setConfirmationStyle]                        = useState("");
-  const [confirmationPasswordStyle, setConfirmationPassword]             = useState("");
+  const [confirmationStyle, setConfirmationStyle] = useState("");
+  const [confirmationPasswordStyle, setConfirmationPassword] = useState("");
   const [confirmationSecondPasswordStyle, setConfirmationSecondPassword] = useState("");
 
   useEffect(() => {
 
     if (email === "") {
-      setInputColor(email,setConfirmationStyle)
+      setInputColor(email, setConfirmationStyle)
     } else {
       const isEmailValid = isInputValid("email", email)
       setInputColor(isEmailValid, setConfirmationStyle)
     }
-    
+
     if (password === "") {
-      setInputColor(password,setConfirmationPassword)
+      setInputColor(password, setConfirmationPassword)
     } else {
       const isPasswordValid = isInputValid("password", password)
       setInputColor(isPasswordValid, setConfirmationPassword)
     }
 
     if (secondPassword === "") {
-      setInputColor(secondPassword,setConfirmationSecondPassword)
+      setInputColor(secondPassword, setConfirmationSecondPassword)
     } else if (password === secondPassword) {
       setInputColor(true, setConfirmationSecondPassword)
     } else {
@@ -51,10 +52,14 @@ export default function MobileRegistercard() {
 
   })
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+  }
+
   return (
     <div className="w-full h-full ">
       <div className="flex justify-center items-center h-full ">
-        <form className="w-11/12 h-10/12  h-full flex  flex-col">
+        <form className="w-11/12 h-10/12  h-full flex  flex-col" onSubimit={handleSubmit}>
           <label className="text-lg mt-10 mb-4">
             <b>Email</b>
           </label>
@@ -65,6 +70,7 @@ export default function MobileRegistercard() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          {!isInputIsValid("email", email) & email !== "" && <span className="text-red">Digite um email valido</span>}
 
           <label className="text-lg mt-6 mb-4">
             <b>Password</b>

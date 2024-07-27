@@ -1,0 +1,18 @@
+
+> eccomerce-base@0.1.0 test
+> jest
+
+  console.log
+    mongodb+srv://blacksansa:OgtfTubF7oCHJA7F@cluster0.bvrgmif.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
+      at getEnviromentVariable (src/config.ts:8:13)
+
+
+> eccomerce-base@0.1.0 test
+> jest
+
+  console.log
+    mongodb+srv://blacksansa:OgtfTubF7oCHJA7F@cluster0.bvrgmif.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
+      at getEnviromentVariable (src/config.ts:8:13)
+

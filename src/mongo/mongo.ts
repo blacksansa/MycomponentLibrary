@@ -1,30 +1,80 @@
-import { config } from "@/config";
-import { MongoClient } from "mongodb";
+import { client } from "./client"
 
-const client = getClient();
+export async function getCollectionDocuments(db_name: string, col_name: string) {
 
-function getClient() {
-  const client = new MongoClient(config.mongoUri);
-  if (!client) {
-    throw new Error("Connection Fail");
-  } else {
-    return client;
+  let result: object[] = []
+  //Debug variables
+  let requestStatus
+  let error
+
+  try {
+    const database = client.db(db_name)
+    const collection = database.collection(col_name)
+    const myData = await collection.find().toArray()
+    result = myData
+    requestStatus = "successful"
   }
+  catch (e) {
+    requestStatus = "fail"
+    error = e
+  }
+  finally {
+    await client.close();
+  }
+
+  // Return conditionals *** A empity [] means that mongo don't find in the document database
+
+  if (requestStatus === "successful") {
+    return result
+  }
+  if (requestStatus === "fail" && result.length === 0) {
+    return "Wrong parameters"
+  }
+  else if ("fail") {
+    return 0
+  }
+
 }
 
-async function getCollection(databaseName: string, collectionName: string) {
-  await client.connect();
-  const database = client.db(databaseName);
-  const collection = database.collection(collectionName);
-  return collection;
+export async function getCollectionUniqueDoc(db_name: string, col_name: string) {
+
+  let result: object[] = []
+  //Debug variables
+  let requestStatus
+  let error
+
+  try {
+    const database = client.db(db_name)
+    const collection = database.collection(col_name)
+    const myData = await collection.find().toArray()
+    result = myData
+    requestStatus = "successful"
+  }
+  catch (e) {
+    requestStatus = "fail"
+    error = e
+  }
+  finally {
+    await client.close();
+  }
+
+  // Return conditionals *** A empity [] means that mongo don't find in the document database
+
+  if (requestStatus === "successful") {
+    return result
+  }
+  if (requestStatus === "fail" && result.length === 0) {
+    return "Wrong parameters"
+  }
+  else if ("fail") {
+    return 0
+  }
+
 }
 
-export async function getAllCollectionDocuments(
-  databaseName: string,
-  collectionName: string,
-) {
-  const collection = await getCollection(databaseName, collectionName);
-  const data = await collection.find().toArray();
-  client.close();
-  return data;
-}
+
+
+
+
+
+

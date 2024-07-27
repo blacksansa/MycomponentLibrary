@@ -1,23 +1,23 @@
-import { getAllCollectionDocuments } from "@/mongo/mongo"
+import { getCollection } from "@/mongo/mongo"
 import { NextResponse } from "next/server"
 
 async function getResponse() {
   let result, error
   try {
-    result = await getAllCollectionDocuments("sample_analytics","accounts")
+    result = await getCollection("User", "accounts")
   } catch (e) {
     error = e
   }
 
-  if(error) {
+  if (error) {
     return error
   } else {
-    return result 
+    return result
   }
 
 }
 
-export async function GET () {
+export async function GET() {
   const data = await getResponse()
-    return NextResponse.json(data)
-  }
+  return NextResponse.json(data)
+}
