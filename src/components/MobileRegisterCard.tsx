@@ -70,7 +70,6 @@ export default function MobileRegistercard() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          {!isInputIsValid("email", email) & email !== "" && <span className="text-red">Digite um email valido</span>}
 
           <label className="text-lg mt-6 mb-4">
             <b>Password</b>

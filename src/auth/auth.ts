@@ -1,16 +1,16 @@
-import { getCollection, getDocumentWith, AddDocument } from "@/mongo/mongo";
-import { User } from "@/type/types";
-function getUsersCollection() {
-  const data = getCollection("users", "creds")
-  if (data) { return data } else { throw new Error("Error to get database") }
+import { Collection } from "@/mongo/collection"
+
+const accountsCollection = new Collection("Users", "accounts")
+
+function createUser(newUser: object) {
+  return accountsCollection.addDocument(newUser)
 }
 
-const userCollection = getUsersCollection()
-
-function addUser(user: User) {
-  AddDocument(userCollection, user)
+export async function login(email: string, passwd: string, url: string) {
+  const requestBody = {
+    method: "POST",
+    body: email + " " + passwd
+  }
+  try { const result = await fetch(url, requestBody) } catch (e) { throw new Error("Error Login to account") }
 }
 
-function getUser(id: string) {
-  const userObj = getDocumentWith(userCollection, { id: id })
-}

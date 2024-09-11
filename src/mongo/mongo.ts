@@ -1,80 +1,85 @@
 import { client } from "./client"
 
 export async function getCollectionDocuments(db_name: string, col_name: string) {
-
   let result: object[] = []
-  //Debug variables
-  let requestStatus
-  let error
-
+  let error;
   try {
     const database = client.db(db_name)
     const collection = database.collection(col_name)
-    const myData = await collection.find().toArray()
-    result = myData
-    requestStatus = "successful"
+    result = await collection.find().toArray()
   }
   catch (e) {
-    requestStatus = "fail"
-    error = e
+    if (e) {
+      error = e
+    }
   }
-  finally {
-    await client.close();
-  }
-
-  // Return conditionals *** A empity [] means that mongo don't find in the document database
-
-  if (requestStatus === "successful") {
+  if (error) {
+    throw new Error("UNKNOW ERROR")
+  } else if (result.length === 0) {
+    throw new Error("WRONG PARAMETERS")
+  } else {
     return result
   }
-  if (requestStatus === "fail" && result.length === 0) {
-    return "Wrong parameters"
-  }
-  else if ("fail") {
-    return 0
-  }
-
 }
-
-export async function getCollectionUniqueDoc(db_name: string, col_name: string) {
-
+export async function queryCollectionDocuments(db_name: string, col_name: string, query: object) {
   let result: object[] = []
-  //Debug variables
-  let requestStatus
-  let error
-
   try {
     const database = client.db(db_name)
     const collection = database.collection(col_name)
-    const myData = await collection.find().toArray()
-    result = myData
-    requestStatus = "successful"
+    result = await collection.find(query).toArray()
   }
   catch (e) {
-    requestStatus = "fail"
-    error = e
+    if (e) {
+      return "REQUEST FAIL"
+    }
   }
   finally {
-    await client.close();
+    if (result.length > 0) {
+      return result
+    } else {
+      throw new Error("WRONG PARAMETERS")
+    }
   }
+}
+export async function addDocument(db_name: string, col_name: string, doc: object) {
+  let result
+  try {
 
-  // Return conditionals *** A empity [] means that mongo don't find in the document database
-
-  if (requestStatus === "successful") {
-    return result
+    const database = client.db(db_name)
+    const collection = database.collection(col_name)
+    result = await collection.insertOne(doc)
   }
-  if (requestStatus === "fail" && result.length === 0) {
-    return "Wrong parameters"
+  catch (e) {
+    if (e) {
+      throw new Error("UNKNOW ERROR")
+    }
   }
-  else if ("fail") {
-    return 0
+  if (!result) {
+    result = "Fail"
   }
-
+  console.log(result)
+  return result
 }
 
-
-
-
+export async function updateDocument(db_name: string, col_name: string, id: object) {
+  let result: object[] = []
+  try {
+    const database = client.db(db_name)
+    const collection = database.collection(col_name)
+  }
+  catch (e) {
+    if (e) {
+      return "REQUEST FAIL"
+    }
+  }
+  finally {
+    if (result.length > 0) {
+      return result
+    } else {
+      throw new Error("WRONG PARAMETERS")
+    }
+  }
+}
 
 
 
